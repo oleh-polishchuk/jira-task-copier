@@ -7,28 +7,34 @@ function getSource($document) {
     var issueKey,
         issueVal;
 
-    var $keyFromIssueList = document.getElementById('issuekey-val') ? document.getElementById('issuekey-val').querySelector('a') ? document.getElementById('issuekey-val').querySelector('a').innerText : null : null;
-    var $valFromIssueList = document.getElementById('summary-val') ? document.getElementById('summary-val').innerText : null;
+    var issueContainer = document.querySelector('#jira-issue-header [data-test-id="issue.views.issue-base.foundation.breadcrumbs.breadcrumb-current-issue-container"] a');
+    var summaryHeading = document.querySelector('[data-test-id="issue.views.issue-base.foundation.summary.heading"]')
+
+    var $keyFromIssueList = issueContainer ? issueContainer.innerText : null;
+    var $valFromIssueList = summaryHeading ? summaryHeading.innerText : null;
 
     if ($keyFromIssueList && $valFromIssueList) {
         issueKey = $keyFromIssueList;
         issueVal = $valFromIssueList;
     }
 
-    var $keyFromSingleIssue = $document.getElementById('key-val') ? $document.getElementById('key-val').innerText : null;
-    var $valFromSingleIssue = $document.getElementById('summary-val') ? $document.getElementById('summary-val').innerText : null;
-
-    if ($keyFromSingleIssue && $valFromSingleIssue) {
-        issueKey = $keyFromSingleIssue;
-        issueVal = $valFromSingleIssue;
-    }
-
     var html;
     if (issueKey && issueVal) {
-        html = issueKey + ' ' + issueVal;
+        html = '[' + issueKey + '] ' + issueVal;
     } else {
         html = null;
     }
+
+    navigator.permissions.query({name: "clipboard-write"}).then(result => {
+        if (result.state === "granted" || result.state === "prompt") {
+            navigator.clipboard.writeText("<empty clipboard>").then(function() {
+                /* clipboard successfully set */
+            }, function() {
+                /* clipboard write failed */
+            });
+        }
+    });
+
 
     console.log('m:getSource, html:', html);
 
