@@ -3,7 +3,7 @@
 
   "name": "JIRA Task Copier",
   "description": "This extension allow you to copy key and value of selected issue on JIRA Agile Board.",
-  "version": "1.1",
+  "version": "1.2",
 
   "browser_action": {
     "default_icon": "icon.png",
