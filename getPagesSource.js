@@ -27,14 +27,15 @@ function getSource($document) {
 
     navigator.permissions.query({name: "clipboard-write"}).then(result => {
         if (result.state === "granted" || result.state === "prompt") {
-            navigator.clipboard.writeText("<empty clipboard>").then(function() {
+            navigator.clipboard.writeText(html).then(function() {
                 /* clipboard successfully set */
+                console.log('Issue name copied to clipboard!');
             }, function() {
                 /* clipboard write failed */
+                console.log('Issue name coping to clipboard failed!');
             });
         }
     });
-
 
     console.log('m:getSource, html:', html);
 
